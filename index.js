@@ -10,6 +10,7 @@ morgan.token('reqbody', function getRes (req, res) {
 })
 
 app.use(cors())
+app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(morgan(':status :reqbody'))
 app.use('/api/persons', routes.persons)
