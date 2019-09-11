@@ -40,10 +40,8 @@ persons.post('/', (req, res, next) => {
     })
   
     person.save()
-        .then(savedPerson => {
-        res.status(200).json(savedPerson.toJSON())
-        .catch(error => next(error))
-      })
+      .then(savedPerson => {res.status(200).json(savedPerson.toJSON())})
+      .catch(error => next(error))
   }
 })
 
@@ -53,11 +51,18 @@ persons.put('/:id', (req, res, next) => {
     number: req.body.number
   }
 
-  Person.findByIdAndUpdate(req.params.id, person, { new: true })
+  console.log('body ', req.body)
+
+  Person.findOneAndUpdate(
+      { _id: req.params.id }, 
+      person, 
+      { new: true, runValidators: true, context: 'query' })
     .then(updatedPerson => {
       res.json(updatedPerson.toJSON())
     })
-    .catch(error => next(error))
+    .catch(error => {
+      next(error)
+    })
 })
 
 const info = express.Router()
