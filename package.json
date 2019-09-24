@@ -9,10 +9,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf build && cd ../phonebook && npm run build --prod && cp -r build ../phonebook_backend",
     "deploy": "git push -u origin master",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
+    "lint": "eslint ."
   },
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^6.3.0",
     "nodemon": "^1.19.1"
   },
   "dependencies": {

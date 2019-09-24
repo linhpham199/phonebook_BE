@@ -24,7 +24,7 @@ persons.get('/:id', (req, res, next) => {
 
 persons.delete('/:id', (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
-    .then(result => res.status(204).end())
+    .then(() => res.status(204).end())
     .catch(error => next(error))
 })
 
@@ -38,7 +38,7 @@ persons.post('/', (req, res, next) => {
       name,
       number
     })
-  
+
     person.save()
       .then(savedPerson => {res.status(200).json(savedPerson.toJSON())})
       .catch(error => next(error))
@@ -54,9 +54,9 @@ persons.put('/:id', (req, res, next) => {
   console.log('body ', req.body)
 
   Person.findOneAndUpdate(
-      { _id: req.params.id }, 
-      person, 
-      { new: true, runValidators: true, context: 'query' })
+    { _id: req.params.id },
+    person,
+    { new: true, runValidators: true, context: 'query' })
     .then(updatedPerson => {
       res.json(updatedPerson.toJSON())
     })
@@ -69,17 +69,14 @@ const info = express.Router()
 
 info.get('/', (req, res, next) => {
   Person.estimatedDocumentCount()
-  .then(count => {
-    res.write(`Phonebook has info for ${count} people \n \n`)
-    const date = new Date()
-    res.write(date.toString())
-    res.end()
-  })
-  .catch(err => next(err))
-
-  
+    .then(count => {
+      res.write(`Phonebook has info for ${count} people \n \n`)
+      const date = new Date()
+      res.write(date.toString())
+      res.end()
+    })
+    .catch(err => next(err))
 })
 
-module.exports = { persons, info };
-
+module.exports = { persons, info }
 
